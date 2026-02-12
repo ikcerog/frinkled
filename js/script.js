@@ -65,7 +65,6 @@ const elements = {
   btnGuess: document.getElementById('guess-button'),
   btnNew: document.getElementById('refresh-button'),
   btnClue: document.getElementById('clue-button'),
-  btnReveal: document.getElementById('reveal-answer-button'),
   feedback: document.getElementById('feedback'),
   guessList: document.getElementById('guess-list'),
   remaining: document.getElementById('remaining-guesses'),
@@ -397,10 +396,9 @@ function handleGuess() {
   }
 
   if (guessesLeft <= 0) {
-    if (elements.feedback) elements.feedback.innerText = 'Out of guesses!';
+    if (elements.feedback) elements.feedback.innerHTML = `Out of guesses. The answer was <strong>${correctTitle || 'Unknown'}</strong>.`;
     if (elements.btnGuess) elements.btnGuess.disabled = true;
     if (elements.btnClue) elements.btnClue.disabled = true;
-    if (elements.btnReveal) elements.btnReveal.classList.remove('hidden');
   } else {
     if (elements.feedback) elements.feedback.innerText = 'Not that one — try again.';
   }
@@ -439,22 +437,20 @@ function revealClue() {
   if (!currentEpisodeData) return;
 
   if (clueStage === 0) {
-    // First click: show season only
+    // First click: show season only; briefly disable to prevent immediate double-advance
     clueStage = 1;
     elements.btnClue.textContent = `S${pad(currentEpisodeData.season)}`;
     elements.btnClue.classList.add('revealed');
-    elements.btnClue.disabled = false; // stay enabled for second click
+    elements.btnClue.disabled = true;
+    setTimeout(function () {
+      if (clueStage === 1) elements.btnClue.disabled = false;
+    }, 400);
   } else if (clueStage === 1) {
     // Second click: show full S#E#
     clueStage = 2;
     elements.btnClue.textContent = getCurrentSELabel();
     elements.btnClue.disabled = true;
   }
-}
-
-function revealAnswer() {
-  if (elements.feedback) elements.feedback.innerHTML = `The answer was <strong>${correctTitle || 'Unknown'}</strong>.`;
-  if (elements.btnReveal) elements.btnReveal.classList.add('hidden');
 }
 
 /* =========================
@@ -501,7 +497,6 @@ function resetUI() {
   if (elements.input) elements.input.value = '';
   if (elements.feedback) elements.feedback.innerText = '';
   if (elements.imageFrame) elements.imageFrame.classList.remove('error');
-  if (elements.btnReveal) elements.btnReveal.classList.add('hidden');
 
   updateClueButtonState();
 }
@@ -512,7 +507,6 @@ function resetUI() {
 if (elements.btnNew) elements.btnNew.addEventListener('click', startNewRound);
 if (elements.btnGuess) elements.btnGuess.addEventListener('click', handleGuess);
 if (elements.btnClue) elements.btnClue.addEventListener('click', revealClue);
-if (elements.btnReveal) elements.btnReveal.addEventListener('click', revealAnswer);
 
 if (elements.input) {
   elements.input.addEventListener('keypress', function (e) {
