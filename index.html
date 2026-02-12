@@ -48,10 +48,27 @@
         <p id="remaining-guesses">Guesses left: 6</p>
       </div>
     </div>
+
+    <button id="info-button" aria-label="About this project">ℹ️</button>
   </div>
 
+  <!-- Disclaimer Modal -->
+  <div id="disclaimer-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="disclaimer-title">
+    <div id="disclaimer-modal">
+      <p id="disclaimer-title">just for fun</p>
+      <p>This is a non-profit fan project. No copyright is claimed and no ownership is asserted over any Simpsons content. Screenshots are sourced from <a href="https://frinkiac.com" target="_blank" rel="noopener">Frinkiac</a>.</p>
+      <p>Not looking to engage with anyone about it — just a fun little thing.</p>
+      <button id="disclaimer-close">Got it</button>
+    </div>
+  </div>
 
   <!-- JavaScript -->
   <script src="js/script.js"></script>
+  <script>
+    const overlay = document.getElementById('disclaimer-overlay');
+    document.getElementById('info-button').addEventListener('click', () => overlay.classList.remove('hidden'));
+    document.getElementById('disclaimer-close').addEventListener('click', () => overlay.classList.add('hidden'));
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.add('hidden'); });
+  </script>
 </body>
 </html>

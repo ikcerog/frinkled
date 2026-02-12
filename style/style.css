@@ -138,6 +138,74 @@ button:disabled { background-color: #ccc !important; cursor: not-allowed; transf
 .correct { color: #16a34a; font-weight: bold; }
 #remaining-guesses { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
 
+/* --- Info Button & Disclaimer Modal --- */
+#info-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  flex: unset;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 1.1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  text-transform: none;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+#info-button:hover { opacity: 1; transform: none; }
+#info-button:active { transform: none; }
+
+#disclaimer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+#disclaimer-overlay.hidden { display: none; }
+
+#disclaimer-modal {
+  background: #fff;
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px #FFD90F;
+  padding: 28px 28px 22px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+#disclaimer-title {
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 16px;
+}
+#disclaimer-modal p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #333;
+  margin: 0 0 12px;
+}
+#disclaimer-modal a { color: #000; }
+#disclaimer-close {
+  flex: unset;
+  margin-top: 6px;
+  padding: 8px 24px;
+  background: #FFD90F;
+  border: 3px solid #000;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   #game-container { padding: 15px; }
