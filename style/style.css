@@ -1,0 +1,146 @@
+/* --- Global Styles & Springfield Vibe --- */
+body {
+  background-color: #7092be;
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+#game-container {
+  background-color: #ffffff;
+  border: 5px solid #000;
+  padding: 30px;
+  max-width: 650px;
+  width: 100%;
+  box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Notification Bar */
+#notification {
+  background: #ef4444;
+  color: white;
+  padding: 12px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 5px solid #000;
+  font-size: 0.9rem;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 10;
+}
+.hidden { transform: translateY(-110%); }
+
+/* --- Image Section --- */
+#image-frame {
+  border: 5px solid #000;
+  background-color: #000;
+  margin-bottom: 20px;
+  line-height: 0;
+  box-shadow: 5px 5px 0px #FFD90F;
+  position: relative;
+  min-height: 300px;
+}
+
+/* Placeholder overlay (shown while image loads or on error) */
+#image-placeholder {
+  position: absolute;
+  inset: 0;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.4));
+  color: #fff;
+  z-index: 5;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align:center;
+}
+
+/* Spinner (simple) */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 5px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.placeholder-text {
+  font-size: 0.95rem;
+  max-width: 85%;
+  line-height: 1.2;
+}
+
+/* Hide placeholder when not needed */
+#image-placeholder.hidden { display: none; }
+
+/* The actual image */
+#screenshot {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  background: #111; /* prevents OS broken-image icon peek-through */
+}
+
+/* Error state for image - show subtle overlay */
+#image-frame.error { background: linear-gradient(90deg,#6b0000,#000); }
+#image-frame.error #image-placeholder { background: rgba(0,0,0,0.6); }
+#image-frame.error .placeholder-text { content: "Couldn't load image." }
+
+/* --- Input & Buttons --- */
+#game-ui { margin-top: 20px; }
+#guess-area { display: flex; flex-direction: column; gap: 10px; }
+#guess-input {
+  padding: 12px;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.1rem;
+  border: 3px solid #000;
+  outline: none;
+}
+#guess-input:focus { background-color: #fff9d7; }
+
+.button-group { display:flex; gap:10px; }
+button {
+  flex: 1;
+  padding: 12px;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 3px solid #000;
+  transition: transform 0.1s, background-color 0.2s;
+}
+button:active { transform: translateY(3px); }
+#guess-button { background-color: #4ade80; }
+#refresh-button { background-color: #FFD90F; }
+button:disabled { background-color: #ccc !important; cursor: not-allowed; transform: none; }
+
+/* --- Results & Guess Tracking --- */
+#status-display { margin-top: 20px; text-align: left; }
+#feedback { font-size: 1.2rem; margin-bottom: 15px; min-height: 1.5em; }
+#guess-list { list-style: none; padding: 0; margin-bottom: 15px; }
+#guess-list li { padding: 8px; margin: 4px 0; border: 2px solid #eee; background: #f9f9f9; display:flex; align-items:center; }
+#guess-list li::before { content: "❌"; margin-right: 10px; font-size: 0.8rem; }
+.wrong { color: #888; text-decoration: line-through; }
+.correct { color: #16a34a; font-weight: bold; }
+#remaining-guesses { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Responsive */
+@media (max-width: 480px) {
+  #game-container { padding: 15px; }
+  .button-group { flex-direction: column; }
+  #image-frame { min-height: 220px; }
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Page Title</title>
+  <meta name="description" content="Short description of your page here.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="game-container">
+    <div id="notification" class="hidden">Don't have a cow, man! Wait a few seconds.</div>
+
+    <div id="image-frame">
+      <!-- placeholder shown until image load -->
+      <div id="image-placeholder" aria-hidden="true">
+        <div class="spinner" role="status" aria-hidden="true"></div>
+        <div class="placeholder-text">Finding a classic Springfield moment…</div>
+      </div>
+
+      <img id="screenshot"
+           src="https://via.placeholder.com/600x450?text=Loading+Springfield..."
+           alt="Simpsons Screenshot">
+    </div>
+
+    <div id="game-ui">
+      <div id="guess-area">
+        <!-- datalist added and input connected via list attribute -->
+        <input type="text" id="guess-input" list="episode-list" placeholder="Guess the episode name (or pick one)…">
+        <datalist id="episode-list"></datalist>
+
+        <div class="button-group">
+          <button id="guess-button" disabled>Guess</button>
+          <button id="refresh-button">New Frame</button>
+          <button id="clue-button" disabled>Clue</button>
+        </div>
+      </div>
+      
+      <div id="status-display">
+        <p id="feedback"></p>
+        <ul id="guess-list"></ul>
+        <p id="remaining-guesses">Guesses left: 6</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
