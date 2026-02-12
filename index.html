@@ -52,6 +52,17 @@
     <button id="info-button" aria-label="About this project">ℹ️</button>
   </div>
 
+  <!-- Background Theme Panel -->
+  <div id="theme-panel" role="group" aria-label="Background theme">
+    <span class="theme-label">bg</span>
+    <button class="theme-btn theme-default active" data-theme=""          title="Default"></button>
+    <button class="theme-btn theme-clouds"          data-theme="bg-clouds"   title="Springfield Sky"></button>
+    <button class="theme-btn theme-stripes"         data-theme="bg-stripes"  title="Bart's Shirt"></button>
+    <button class="theme-btn theme-halftone"        data-theme="bg-halftone" title="Halftone Yellow"></button>
+    <button class="theme-btn theme-donuts"          data-theme="bg-donuts"   title="Donut Glaze"></button>
+    <button class="theme-btn theme-nuclear"         data-theme="bg-nuclear"  title="Nuclear Waste"></button>
+  </div>
+
   <!-- Disclaimer Modal -->
   <div id="disclaimer-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="disclaimer-title">
     <div id="disclaimer-modal">
@@ -63,6 +74,21 @@
 
   <!-- JavaScript -->
   <script src="js/script.js"></script>
+  <script>
+    // Theme switcher
+    (function () {
+      const BG_CLASSES = ['bg-clouds', 'bg-stripes', 'bg-halftone', 'bg-donuts', 'bg-nuclear'];
+      document.querySelectorAll('.theme-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.theme-btn').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          BG_CLASSES.forEach(function (cls) { document.body.classList.remove(cls); });
+          if (btn.dataset.theme) document.body.classList.add(btn.dataset.theme);
+        });
+      });
+    })();
+  </script>
+
   <script>
     const overlay = document.getElementById('disclaimer-overlay');
     document.getElementById('info-button').addEventListener('click', () => overlay.classList.remove('hidden'));
