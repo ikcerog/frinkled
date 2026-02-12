@@ -206,9 +206,154 @@ button:disabled { background-color: #ccc !important; cursor: not-allowed; transf
   cursor: pointer;
 }
 
+/* --- Theme Panel --- */
+#theme-panel {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 2px solid #000;
+  border-radius: 30px;
+  padding: 5px 10px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18);
+  z-index: 200;
+  backdrop-filter: blur(4px);
+}
+
+.theme-label {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #555;
+  padding-right: 2px;
+  user-select: none;
+}
+
+.theme-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  padding: 0;
+  flex: unset;
+  transition: transform 0.12s, border-color 0.12s, box-shadow 0.12s;
+  text-transform: none;
+}
+
+.theme-btn:hover {
+  transform: scale(1.3);
+  border-color: #000;
+}
+
+.theme-btn.active {
+  border: 2px solid #000;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+  transform: scale(1.15);
+}
+
+.theme-btn:active { transform: scale(0.92); }
+
+/* Swatch previews */
+.theme-default { background: #7092be; }
+
+.theme-clouds {
+  background-color: #87ceeb;
+  background-image:
+    radial-gradient(ellipse 5px 3px at 7px 4px, rgba(255,255,255,0.9) 30%, transparent 70%),
+    radial-gradient(ellipse 3px 2.5px at 11px 3px, rgba(255,255,255,0.85) 30%, transparent 70%);
+  background-size: 18px 9px;
+}
+
+.theme-stripes {
+  background: repeating-linear-gradient(
+    180deg,
+    #f26522 0px, #f26522 4px,
+    #c0392b 4px, #c0392b 8px
+  );
+}
+
+.theme-halftone {
+  background-color: #fffde7;
+  background-image: radial-gradient(circle, #FED90F 1.5px, transparent 1.5px);
+  background-size: 5px 5px;
+}
+
+.theme-donuts {
+  background-color: #fff5ee;
+  background-image: radial-gradient(circle,
+    transparent 0px, transparent 3px,
+    #ff85a2 3px, #ff85a2 5px,
+    transparent 5px
+  );
+  background-size: 12px 12px;
+}
+
+.theme-nuclear {
+  background-color: #071007;
+  background-image: radial-gradient(circle, #39ff14 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+/* --- Background Theme Classes (applied to body) --- */
+
+/* Subtle: Springfield sky with drifting cloud puffs */
+body.bg-clouds {
+  background-color: #87ceeb;
+  background-image:
+    radial-gradient(ellipse 50px 32px at 80px 38px, rgba(255,255,255,0.88) 30%, transparent 70%),
+    radial-gradient(ellipse 32px 24px at 114px 30px, rgba(255,255,255,0.82) 30%, transparent 70%),
+    radial-gradient(ellipse 38px 26px at 97px 48px, rgba(255,255,255,0.76) 30%, transparent 70%),
+    radial-gradient(ellipse 44px 28px at 245px 30px, rgba(255,255,255,0.86) 30%, transparent 70%),
+    radial-gradient(ellipse 28px 20px at 275px 24px, rgba(255,255,255,0.8) 30%, transparent 70%),
+    radial-gradient(ellipse 34px 22px at 260px 42px, rgba(255,255,255,0.74) 30%, transparent 70%);
+  background-size: 340px 90px;
+}
+
+/* Subtle: Bart's shirt — orange / red horizontal stripes */
+body.bg-stripes {
+  background: repeating-linear-gradient(
+    180deg,
+    #f26522 0px, #f26522 18px,
+    #c0392b 18px, #c0392b 36px
+  );
+}
+
+/* Subtle: Simpsons yellow halftone dot grid on cream */
+body.bg-halftone {
+  background-color: #fffde7;
+  background-image: radial-gradient(circle, #FED90F 3px, transparent 3px);
+  background-size: 18px 18px;
+}
+
+/* Zany: repeating donut (glaze ring) grid on cream */
+body.bg-donuts {
+  background-color: #fff5ee;
+  background-image: radial-gradient(circle,
+    transparent 0px, transparent 10px,
+    #ff85a2 10px, #ff85a2 17px,
+    transparent 17px
+  );
+  background-size: 44px 44px;
+}
+
+/* Zany: nuclear-waste — dark field, neon-green dot grid */
+body.bg-nuclear {
+  background-color: #071007;
+  background-image: radial-gradient(circle, #39ff14 2px, transparent 2px);
+  background-size: 16px 16px;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   #game-container { padding: 15px; }
   .button-group { flex-direction: column; }
   #image-frame { min-height: 220px; }
+  #theme-panel { bottom: 10px; gap: 5px; padding: 4px 8px; }
+  .theme-btn { width: 16px; height: 16px; }
 }
