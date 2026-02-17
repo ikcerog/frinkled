@@ -270,13 +270,53 @@ function parseFrinkiacCode(code) {
   return { season: parseInt(m[1], 10), episode: parseInt(m[2], 10) };
 }
 
+// Fetch with a hard timeout so a stalled proxy doesn't block indefinitely.
+async function _fetchWithTimeout(url, ms) {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), ms);
+  try {
+    return await fetch(url, { signal: ctrl.signal });
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+// Ordered list of CORS proxy strategies. Each has a URL builder and a response
+// parser. If one proxy is down or rate-limits us, the next is tried automatically.
+const CORS_PROXIES = [
+  {
+    // corsproxy.io – returns the raw JSON directly
+    build: url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    parse: resp => resp.json()
+  },
+  {
+    // allorigins.win – wraps response in { contents: "..." }
+    build: url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    parse: async resp => JSON.parse((await resp.json()).contents)
+  },
+  {
+    // codetabs proxy – returns the raw JSON directly
+    build: url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+    parse: resp => resp.json()
+  }
+];
+
 async function fetchRandomFrinkiacFrame() {
   const frinkiacUrl = `https://frinkiac.com/api/random?t=${Date.now()}`;
-  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(frinkiacUrl)}`;
-  const resp = await fetch(proxyUrl);
-  if (!resp.ok) throw new Error('proxy fetch failed');
-  const proxyData = await resp.json();
-  return JSON.parse(proxyData.contents);
+  let lastErr;
+  for (const proxy of CORS_PROXIES) {
+    try {
+      const resp = await _fetchWithTimeout(proxy.build(frinkiacUrl), 8000);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await proxy.parse(resp);
+      if (data && data.Frame) return data;
+      throw new Error('Unexpected response shape');
+    } catch (err) {
+      lastErr = err;
+      // try next proxy
+    }
+  }
+  throw lastErr || new Error('All CORS proxies failed');
 }
 
 /* =========================
